@@ -27,9 +27,28 @@ class SimpleController(Node):
                                            [self.wheel_radius_ / self.wheel_seperation_, -self.wheel_radius_/ self.wheel_seperation_]]) 
         
         self.get_logger().info("The conversion matrix is: %s" %self.speed_conversion_)
+ 
 
+    def velcallback(self,msg):
 
+        robot_speed = np.array([[msg.linear.x],
+                                [msg.linear.z]])
         
+        wheel_speed  = np.matmul(np.linalg.inv(self.speed_conversion_),robot_speed)
 
+        # then in the wheel speed we define the wheel speed seperately b4 that the data is converted into array
+
+        wheel_speed_msg = Float64MultiArray()
+        wheel_speed_msg.data = [wheel_speed[0,1],wheel_speed[0,0]]
+        self.wheel_cmd_pub_.publish(wheel_speed_msg)
+
+    def main():
+        rclpy.init()
+        simple_controller = SimpleController()
+        rclpy.spin(simple_controller)
+        simple_controller.destroy_node()
+        rclpy.shutdown()
+    if __name__ == "__main__":
+        main()
 
 
