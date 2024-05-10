@@ -1,0 +1,17 @@
+//kinematics 
+
+    forwrd kinematics
+    inverse kinematics
+
+## pose of a mobile robot
+
+    Lets consider our robot is in a 2d plane and so it can move only in the 2d plane
+    i.e ; only yw and xw are in the 2d plane
+
+    And the 2d plane of the bot is yr and xr 
+
+    so we need only 3 variables i.e y (wrt world ) , x wrt to world and and angle teta
+
+Translation : (distance)
+
+    Translation vector -- gives the distance b/w reference frame and the world frame.

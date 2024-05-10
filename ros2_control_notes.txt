@@ -1,0 +1,38 @@
+ROS2 control:
+
+    -> packages needed:
+
+    -> The ros2 control package provide feedback from using the controller and system
+        basically it is a closed loop control system calculated using error value.
+
+        The ros2 control composed of hardware resources composed of the following:
+
+        -> Actuators
+        -> Sensors
+        -> Controllers      (Can be hardware or simulated devices)
+
+        To interact with these hardware resources, we have 2 interfaces namely 
+            
+            1. command interfaces  - for writing commands to the hardware
+            2. state interface     - to retrive (read) the state information of the controller
+
+        These two interfaces are managed by resource manager , loads the hardware components 
+            to be used by the ros2 control library.
+
+        The controller manager interacts with resource manager as well as the Controllers
+            i.e joint trajectory controller or position controller
+
+ROS2 controller:
+    The controller logic needd for the ros2 control is given by the this library.
+
+
+Control types:
+
+    position 
+    speed 
+    effort
+
+
+// Parameter YAML
+
+    used for providing paramters needed for the controller_parameter
