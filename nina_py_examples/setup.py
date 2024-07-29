@@ -23,6 +23,11 @@ setup(
             "simple_publisher = nina_py_examples.simple_publisher:main",
             "simple_subscriber = nina_py_examples.simple_subscriber:main",
             "simple_parameter = nina_py_examples.simple_parameter:main",
+            "simple_tf_kinematics = nina_py_examples.simple_tf_kinematics:main",
+            "simple_service_server = nina_py_examples.simple_service_server:main",
+            "simple_service_client = nina_py_examples.simple_service_client:main",
+
+
         ],
     },
 )
