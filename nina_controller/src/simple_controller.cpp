@@ -1,7 +1,7 @@
 #include "nina_controller/simple_controller.hpp"
 #include <Eigen/Geometry>
 #include <std_msgs/msg/float64_multi_array.hpp>
-#include <geometry_msgs/msg/twist_stamped.hpp>
+#include <geometry_msgs/msg/twist.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <tf2/LinearMath/Quaternion.h>
@@ -29,7 +29,7 @@ SimpleController::SimpleController(const std::string & name)
     time_prev_ = get_clock()->now();   
 
     wheel_cmd_pub_ = create_publisher<std_msgs::msg::Float64MultiArray>("/simple_velocity_controller/commands", 10);
-    vel_sub_ = create_subscription<geometry_msgs::msg::TwistStamped>("/nina_controller/cmd_vel", 10,
+    vel_sub_ = create_subscription<geometry_msgs::msg::Twist>("/nina_controller/cmd_vel", 10,
                 std::bind(&SimpleController::velCallback, this, std::placeholders::_1));
     joint_sub_ = create_subscription<sensor_msgs::msg::JointState>("/joint_states", 10,
                 std::bind(&SimpleController::jointCallback, this, std::placeholders::_1));
@@ -49,9 +49,9 @@ SimpleController::SimpleController(const std::string & name)
     transform_stamped_.child_frame_id = "base_footprint";
 }
 
-void SimpleController::velCallback(const geometry_msgs::msg::TwistStamped & msg)
+void SimpleController::velCallback(const geometry_msgs::msg::Twist & msg)
 {
-    Eigen::Vector2d robot_speed(msg.twist.linear.x, msg.twist.angular.z); 
+    Eigen::Vector2d robot_speed(msg.linear.x, msg.angular.z); 
 
     Eigen::Vector2d wheel_speed = speed_conversion_.inverse() * robot_speed;
     std_msgs::msg::Float64MultiArray wheel_speed_msg;

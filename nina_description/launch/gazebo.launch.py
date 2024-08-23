@@ -4,7 +4,7 @@ from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable, Includ
 import os
 from ament_index_python import get_package_share_directory, get_package_prefix
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.substitutions import Command, LaunchConfiguration 
+from launch.substitutions import Command, LaunchConfiguration,PathJoinSubstitution, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
@@ -23,16 +23,29 @@ def generate_launch_description():
         default_value= os.path.join(nina_description, "urdf", "nina.urdf.xacro"),
         description = "Abs path of the model"
     )
+
+    world_name_arg = DeclareLaunchArgument(name = "world_name", default_value= "empty")
+    world_path = PathJoinSubstitution([
+        nina_description,
+        "worlds",
+        PythonExpression(expression = ["'", LaunchConfiguration("world_name"), "'","+'.world'"])
+    ])
+
     robot_description = ParameterValue(Command(["xacro ", LaunchConfiguration("model")]),value_type=str)
 
     robot_state_pubisher = Node(
         package = "robot_state_publisher",
         executable = "robot_state_publisher",
-        parameters = [{"robot_description" : robot_description}]
+        parameters = [{"robot_description" : robot_description,
+                       "use_sim_time" : True}]
     )
 
     gz_server = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join
-                (get_package_share_directory("gazebo_ros"),"launch", "gzserver.launch.py")))
+                (get_package_share_directory("gazebo_ros"),"launch", "gzserver.launch.py")),
+                launch_arguments={
+                    "world": world_path
+                }.items(),
+            )
     
 
     gz_client = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join
@@ -49,6 +62,7 @@ def generate_launch_description():
     return LaunchDescription([
         env_var,
         model_arg,
+        world_name_arg,
         robot_state_pubisher,
         gz_server,
         gz_client,

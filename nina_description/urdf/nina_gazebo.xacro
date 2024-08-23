@@ -28,6 +28,8 @@
     <minDepth>0.001</minDepth>
     <maxVel>0.1</maxVel>
     <fdir1>1 0 0</fdir1>
+    <material>Gazebo/Black</material>
+
   </gazebo>
 
   <gazebo reference="wheel_right_link">
@@ -38,6 +40,8 @@
     <minDepth>0.001</minDepth>
     <maxVel>0.1</maxVel>
     <fdir1>1 0 0</fdir1>
+    <material>Gazebo/Black</material>
+
   </gazebo>
     
   <!-- Caster Wheels -->
@@ -48,6 +52,8 @@
     <kd>100.0</kd>
     <minDepth>0.001</minDepth>
     <maxVel>1.0</maxVel>
+    <material>Gazebo/Black</material>
+
   </gazebo>
     
   <gazebo reference="caster_front_link">
@@ -57,6 +63,8 @@
     <kd>100.0</kd>
     <minDepth>0.001</minDepth>
     <maxVel>1.0</maxVel>
+    <material>Gazebo/Black</material>
+
   </gazebo>
 
   <!-- ROS 2 Control -->
@@ -118,5 +126,43 @@
         <plugin name="imu" filename="libgazebo_ros_imu_sensor.so"/>
     </sensor>
   </gazebo>
+
+    <!-- 2D Laser Sensor -->
+    <gazebo reference="laser_link">
+      <sensor name="lidar" type="ray">
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>5</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1.00000</resolution>
+              <min_angle>0.000000</min_angle>
+              <max_angle>6.280000</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.120000</min>
+            <max>12.0</max>
+            <resolution>0.02</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>laser_link</frame_name>
+        </plugin>
+      </sensor>
+      <material>Gazebo/Black</material>
+
+    </gazebo>
 
 </robot>
