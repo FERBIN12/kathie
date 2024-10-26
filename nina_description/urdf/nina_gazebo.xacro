@@ -3,7 +3,7 @@
 <robot name="nina" xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- Move this one to ros2 control -->
-  <transmission name="wheel_right_transmission">
+  <!-- <transmission name="wheel_right_transmission">
     <plugin>transmission_interface/SimpleTransmission</plugin>
     <actuator name="wheel_right_motor" role="actuator_right"/>
     <joint name="wheel_right_joint"    role="joint_right">
@@ -17,7 +17,7 @@
     <joint name="wheel_left_joint"    role="joint_left">
       <mechanical_reduction>1.0</mechanical_reduction>
     </joint>
-  </transmission>
+  </transmission> -->
 
   <!-- Wheels -->
   <gazebo reference="wheel_left_link">
@@ -68,16 +68,16 @@
   </gazebo>
 
   <!-- ROS 2 Control -->
-  <gazebo>
+  <!-- <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
       <robot_param>robot_description</robot_param>
       <robot_param_node>robot_state_publisher</robot_param_node>
       <parameters>$(find nina_controller)/config/nina_controllers.yaml</parameters>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
   <!-- IMU -->
-  <gazebo reference="imu_link">
+  <!-- <gazebo reference="imu_link">
     <sensor name="imu" type="imu">
         <always_on>true</always_on>
         <update_rate>100</update_rate>
@@ -125,11 +125,11 @@
         </imu>
         <plugin name="imu" filename="libgazebo_ros_imu_sensor.so"/>
     </sensor>
-  </gazebo>
+  </gazebo> -->
 
     <!-- 2D Laser Sensor -->
-    <gazebo reference="laser_link">
-      <sensor name="lidar" type="ray">
+    <!-- <gazebo reference="laser_link"> -->
+      <!-- <sensor name="lidar" type="ray">
         <always_on>true</always_on>
         <visualize>true</visualize>
         <update_rate>5</update_rate>
@@ -160,9 +160,9 @@
           <output_type>sensor_msgs/LaserScan</output_type>
           <frame_name>laser_link</frame_name>
         </plugin>
-      </sensor>
-      <material>Gazebo/Black</material>
+      </sensor> -->
+      <!-- <material>Gazebo/Black</material> -->
 
-    </gazebo>
+    <!-- </gazebo> -->
 
 </robot>

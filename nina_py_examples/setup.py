@@ -17,7 +17,9 @@ setup(
     maintainer_email='fjferbin@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
-    tests_require=['pytest'],
+    extras_require={
+        'test': ['pytest'],
+    },
     entry_points={
         'console_scripts': [
             "simple_publisher = nina_py_examples.simple_publisher:main",
@@ -26,8 +28,6 @@ setup(
             "simple_tf_kinematics = nina_py_examples.simple_tf_kinematics:main",
             "simple_service_server = nina_py_examples.simple_service_server:main",
             "simple_service_client = nina_py_examples.simple_service_client:main",
-
-
         ],
     },
 )
